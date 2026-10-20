@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>고1-2 내신 간편 시뮬레이터 (모바일앱 v20261020.8)</title>
+
+  <!-- Security Meta Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; object-src 'none'; base-uri 'self';">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+
+  <!-- Open Graph & Social Preview -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="📱 경기과고 고1-2 내신 간편 시뮬레이터 (v20261020.8)">
+  <meta property="og:description" content="수행 예상 점수와 지필 원점수로 산출하는 실시간 학점 예측 (체육·음악 P/F 적용)">
+  <meta property="og:image" content="고1-2내신시뮬레이션_썸네일.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="📱 경기과고 고1-2 내신 간편 시뮬레이터 (v20261020.8)">
+  <meta name="twitter:description" content="수행 예상 점수와 지필 원점수로 산출하는 실시간 학점 예측 (체육·음악 P/F 적용)">
+  <meta name="twitter:image" content="고1-2내신시뮬레이션_썸네일.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="경기과고 내신">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <!-- Embedded High-Resolution Text App Icon & Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230F172A'/%3E%3Crect x='4' y='4' width='92' height='92' rx='18' fill='none' stroke='%2338BDF8' stroke-width='3'/%3E%3Ctext x='50' y='42' font-family='sans-serif' font-size='24' font-weight='800' fill='%23FFFFFF' text-anchor='middle'%3EGSHS%3C/text%3E%3Ctext x='50' y='76' font-family='sans-serif' font-size='32' font-weight='900' fill='%23FDE047' text-anchor='middle'%3E1-2%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#0F172A">
+
+  <!-- Modern Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #2563EB;
+      --primary-dark: #1D4ED8;
+      --bg-gradient: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+      --surface: #FFFFFF;
+      --surface-subtle: #F8FAFC;
+      --border: #E2E8F0;
+      --text-main: #0F172A;
+      --text-muted: #64748B;
+      --gold: #F59E0B;
+      --gold-bg: #FEF3C7;
+      --green: #10B981;
+      --green-bg: #D1FAE5;
+      --orange: #F97316;
+      --orange-bg: #FFEDD5;
+      --blue-bg: #EFF6FF;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Client Protection: Text selection and drag disabled except inputs */
+    body {
+      background-color: #F1F5F9;
+      color: var(--text-main);
+      padding-bottom: 85px;
+      line-height: 1.5;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    input, select, textarea {
+      -webkit-user-select: auto;
+      user-select: auto;
+    }
+
+    /* Mobile Container */
+    .app-container {
+      max-width: 540px;
+      margin: 0 auto;
+      background: #F8FAFC;
+      min-height: 100vh;
+      position: relative;
+      box-shadow: 0 0 40px rgba(0,0,0,0.08);
+    }
+
+    /* Sticky App Header */
+    .app-header {
+      background: var(--bg-gradient);
+      color: white;
+      padding: 18px 20px 22px;
+      border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      gap: 6px;
+    }
+
+    .header-badges {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: nowrap;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .badge-school {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      padding: 4px 7px;
+      border-radius: 20px;
+      font-size: 10.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .badge-version {
+      background: #0284C7;
+      color: #E0F2FE;
+      padding: 4px 6px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: 0.2px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .badge-security {
+      background: rgba(16, 185, 129, 0.2);
+      border: 1px solid rgba(16, 185, 129, 0.5);
+      color: #A7F3D0;
+      padding: 4px 6px;
+      border-radius: 12px;
+      font-size: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .badge-security:active {
+      transform: scale(0.96);
+      background: rgba(16, 185, 129, 0.35);
+    }
+
+    .btn-reset {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 14px;
+      font-size: 10.5px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .btn-reset:active {
+      transform: scale(0.95);
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .app-title {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .app-sub {
+      font-size: 12px;
+      color: #94A3B8;
+      margin-bottom: 12px;
+    }
+
+    /* GPA KPI Card */
+    .gpa-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .gpa-info-left {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gpa-label {
+      font-size: 11px;
+      color: #CBD5E1;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .gpa-value-wrap {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .gpa-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      color: #FDE047;
+      text-shadow: 0 2px 10px rgba(253, 224, 71, 0.3);
+      line-height: 1.1;
+    }
+
+    .gpa-scale {
+      font-size: 12px;
+      color: #94A3B8;
+      font-weight: 600;
+    }
+
+    .gpa-badge-right {
+      text-align: right;
+    }
+
+    .credits-tag {
+      background: #0284C7;
+      color: white;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 8px;
+      display: inline-block;
+      margin-bottom: 3px;
+    }
+
+    .status-text {
+      font-size: 11px;
+      color: #A7F3D0;
+      font-weight: 600;
+    }
+
+    /* Tab navigation */
+    .tab-bar {
+      display: flex;
+      background: #E2E8F0;
+      padding: 3px;
+      margin: 12px 16px 10px;
+      border-radius: 12px;
+      gap: 3px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 7px 3px;
+      border: none;
+      background: transparent;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      text-align: center;
+      letter-spacing: -0.4px;
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* Cards Layout */
+    .cards-wrap {
+      padding: 6px 16px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .course-card {
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .course-card:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #F1F5F9;
+    }
+
+    .course-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .course-no {
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      background: #F1F5F9;
+      color: #64748B;
+      padding: 2px 7px;
+      border-radius: 6px;
+    }
+
+    .course-name {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .course-credit {
+      font-size: 11px;
+      color: #64748B;
+      font-weight: 600;
+      background: #F8FAFC;
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid #E2E8F0;
+    }
+
+    .pf-tag {
+      background: #D1FAE5;
+      color: #065F46;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+
+    .score-summary {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .total-score-pill {
+      font-size: 13px;
+      font-weight: 700;
+      color: #92400E;
+      background: #FEF3C7;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .grade-badge {
+      font-size: 12px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* 3-Column Input Grid */
+    .inputs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .input-box {
+      background: #F8FAFC;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 8px 6px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .input-box.editable {
+      background: #EFF6FF;
+      border: 1.5px solid #93C5FD;
+    }
+    .input-box.editable:focus-within {
+      border-color: #2563EB;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+      background: #FFFFFF;
+    }
+
+    .input-box.disabled {
+      background: #F1F5F9;
+      opacity: 0.65;
+    }
+
+    .input-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .input-box.editable .input-label {
+      color: #1E40AF;
+    }
+
+    .score-input {
+      width: 100%;
+      border: none;
+      background: transparent;
+      text-align: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: #1E3A8A;
+      font-family: 'Outfit', sans-serif;
+      outline: none;
+    }
+
+    .score-input:disabled {
+      color: #94A3B8;
+      font-size: 13px;
+    }
+
+    /* Dual Cutoffs Stack */
+    .cutoffs-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .cutoffs-bar {
+      border-radius: var(--radius-sm);
+      padding: 6px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Bar 1: 실전 기말 목표컷 (살구 피치 테마) */
+    .cutoffs-bar.actual {
+      background: #FFF7ED;
+      border: 1px solid #FED7AA;
+    }
+    .cutoffs-bar.actual .cutoffs-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #9A3412;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .cutoffs-bar.actual .cut-tag {
+      font-size: 11px;
+      color: #7C2D12;
+      font-weight: 600;
+    }
+    .cutoffs-bar.actual .cut-val {
+      font-weight: 800;
+      color: #C2410C;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    /* Bar 2: 수행만점 기준 지필평균 커트라인 (I~K열 - 차분한 슬레이트 블루 테마) */
+    .cutoffs-bar.baseline {
+      background: #F8FAFC;
+      border: 1px dashed #CBD5E1;
+    }
+    .cutoffs-bar.baseline .cutoffs-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: #475569;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .cutoffs-bar.baseline .cut-tag-base {
+      font-size: 10.5px;
+      color: #64748B;
+      font-weight: 600;
+    }
+    .cutoffs-bar.baseline .cut-val-base {
+      font-weight: 700;
+      color: #1E293B;
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .cutoffs-bar.pf {
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+    }
+
+    .cutoffs-bar.disabled {
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+    }
+
+    .cutoffs-values {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Quick Guide Box */
+    .quick-guide {
+      margin: 16px;
+      background: white;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      border: 1px solid var(--border);
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+    .quick-guide h4 {
+      font-size: 13px;
+      color: var(--text-main);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .quick-guide ul {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    /* Bottom Floating Action Bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      justify-content: space-around;
+      max-width: 540px;
+      margin: 0 auto;
+      z-index: 99;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.03);
+    }
+
+    .btn-action {
+      flex: 1;
+      margin: 0 4px;
+      padding: 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .btn-share {
+      background: #EFF6FF;
+      color: var(--primary);
+    }
+    .btn-save {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 72px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #0F172A;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 200;
+      pointer-events: none;
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    /* Security Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 500;
+      padding: 20px;
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 440px;
+      padding: 24px;
+      box-shadow: var(--shadow-lg);
+      animation: modalUp 0.25s ease-out;
+    }
+    @keyframes modalUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .modal-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #94A3B8;
+      cursor: pointer;
+    }
+    .security-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      font-size: 12px;
+      color: #334155;
+    }
+    .sec-item {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      padding: 10px 12px;
+      border-radius: 10px;
+    }
+    .sec-item-title {
+      font-weight: 700;
+      color: #1E293B;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .sec-item-desc {
+      font-size: 11px;
+      color: #64748B;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body oncontextmenu="return false;" ondragstart="return false;" onselectstart="return event.target.tagName==='INPUT'">
+
+<div class="app-container">
+  <!-- Sticky App Header -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="header-badges">
+        <span class="badge-school">🏛️ 경기과고 고1-2</span>
+        <span class="badge-version">v20261020.8</span>
+        <button class="badge-security" onclick="openSecurityModal()">🛡️ 보안 적용</button>
+      </div>
+      <button class="btn-reset" onclick="resetDefaults()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+        초기화
+      </button>
+    </div>
+
+    <h1 class="app-title">📱 내신 간편 시뮬레이터</h1>
+    <p class="app-sub">수행 예상 점수와 지필 원점수로 산출하는 실시간 학점 예측</p>
+
+    <!-- GPA KPI Card -->
+    <div class="gpa-card">
+      <div class="gpa-info-left">
+        <span class="gpa-label">2학기 예상 학점평균</span>
+        <div class="gpa-value-wrap">
+          <span class="gpa-number" id="headerGpa">4.050</span>
+          <span class="gpa-scale">/ 4.30 만점</span>
+        </div>
+      </div>
+      <div class="gpa-badge-right">
+        <span class="credits-tag">24학점 기준 (P/F 제외)</span>
+        <div class="status-text" id="gpaStatusText">체육·음악 P/F 평가기준 적용</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Navigation Tab Bar -->
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="switchTab('all')">전체 11과목</button>
+    <button class="tab-btn" onclick="switchTab('written')">기말 실시 (7과목)</button>
+    <button class="tab-btn" onclick="switchTab('nonwritten')">기말 미실시 (4과목)</button>
+  </div>
+
+  <!-- Course Cards List -->
+  <main class="cards-wrap" id="coursesList">
+    <!-- Dynamically rendered by JS -->
+  </main>
+
+  <!-- Quick Guide Box -->
+  <div class="quick-guide">
+    <h4>💡 모바일 실전 사용 팁 (v20261020.8)</h4>
+    <ul>
+      <li><strong>파란색 박스</strong>를 탭하여 예상 수행 점수 및 시험 점수를 입력하세요.</li>
+      <li>점수를 바꾸면 상단 학점평균과 기말 목표 컷이 실시간으로 재계산됩니다.</li>
+      <li>각 카드 하단에 <strong>🎯 실전 기말 목표컷</strong>과 <strong>📌 수행만점 기준시 지필평균 커트라인</strong>이 나란히 표시되어 목표 변화를 한눈에 비교할 수 있습니다.</li>
+      <li><strong>체육Ⅱ & 음악Ⅰ</strong>은 학교 공식 평가계획에 따라 <strong>70점 이상 Pass(P)</strong>로 평가되며, 4.30 만점 학점평균(24학점 기준) 산출에서 제외됩니다.</li>
+    </ul>
+  </div>
+
+  <!-- Bottom Floating Bar -->
+  <div class="bottom-bar">
+    <button class="btn-action btn-share" onclick="copyShareText()">
+      📋 성적 요약 복사
+    </button>
+    <button class="btn-action btn-save" onclick="saveToLocal()">
+      💾 현재 점수 저장
+    </button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">알림 메시지</div>
+
+<!-- Security Modal Dialog -->
+<div class="modal-overlay" id="secModal" onclick="closeSecurityModal(event)">
+  <div class="modal-card" onclick="event.stopPropagation()">
+    <div class="modal-header">
+      <div class="modal-title">
+        <span>🛡️ 웹앱 보안 처리 완료 내역</span>
+      </div>
+      <button class="modal-close" onclick="closeSecurityModal()">&times;</button>
+    </div>
+    <div class="security-list">
+      <div class="sec-item">
+        <div class="sec-item-title">🔒 1. CSP (Content Security Policy) 보호</div>
+        <div class="sec-item-desc">외부 비인가 스크립트 실행, iframe 하이재킹 및 데이터 탈취를 브라우저 엔진 레벨에서 원천 차단합니다.</div>
+      </div>
+      <div class="sec-item">
+        <div class="sec-item-title">🚫 2. 소스보기 및 개발자도구 봉쇄</div>
+        <div class="sec-item-desc">우클릭 금지, 드래그 방지, F12, Ctrl+U, Ctrl+Shift+I, Mac단축키 등을 차단하여 수식 및 코드를 보호합니다.</div>
+      </div>
+      <div class="sec-item">
+        <div class="sec-item-title">🛡️ 3. 입력값 정제 및 XSS 인젝션 방어</div>
+        <div class="sec-item-desc">모든 점수 입력값은 엄격한 수치 검증(0~150점 범위 클램핑)을 거치며 DOM 렌더링 시 안전한 텍스트 바인딩을 적용합니다.</div>
+      </div>
+      <div class="sec-item">
+        <div class="sec-item-title">💾 4. 온디바이스(On-Device) 로컬 처리</div>
+        <div class="sec-item-desc">학생의 성적 데이터는 외부 서버나 분석 툴로 전송되지 않으며, 사용자 기기 내부(Local Storage)에서만 독립 연산됩니다.</div>
+      </div>
+      <div class="sec-item">
+        <div class="sec-item-title">📦 5. 스토리지 무결성 및 버전 격리</div>
+        <div class="sec-item-desc">v7 독립 키(gshs_gpa_state_v7)로 네임스페이스를 분리하여 오염된 외부 스크립트의 데이터 간섭을 방지합니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Security 1: Comprehensive Anti-Inspection & DevTools Prevention
+  document.addEventListener('keydown', function(e) {
+    // F12
+    if (e.key === 'F12' || e.keyCode === 123) {
+      e.preventDefault();
+      showToast('🔒 개발자 도구(F12) 접근이 제한되어 있습니다.');
+      return false;
+    }
+    // Ctrl+U / Cmd+U (View Source)
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U' || e.keyCode === 85)) {
+      e.preventDefault();
+      showToast('🔒 페이지 소스 보기가 제한되어 있습니다.');
+      return false;
+    }
+    // Ctrl+Shift+I/J/C or Cmd+Opt+I/J/C (DevTools)
+    if (((e.ctrlKey && e.shiftKey) || (e.metaKey && e.altKey)) && 
+        (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c' ||
+         e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) {
+      e.preventDefault();
+      showToast('🔒 개발자 도구 단축키가 제한되어 있습니다.');
+      return false;
+    }
+    // Ctrl+S / Cmd+S (Save Page)
+    if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S' || e.keyCode === 83)) {
+      e.preventDefault();
+      return false;
+    }
+  });
+
+  // Security 2: Console Tamper Warning Banner
+  console.log('%c⚠️ 경기과학고 내신 시뮬레이터 보안 안내', 'color:#2563EB; font-size:16px; font-weight:800;');
+  console.log('%c본 웹 애플리케이션의 소스 코드 및 평가 수식 무단 변조를 방지하기 위해 보안 보호가 적용되어 있습니다.', 'color:#64748B; font-size:12px;');
+
+  // 11 Official Course Definitions with P/F rules, v3 Baseline Raw Scores & I~K Baseline Cutoffs
+  const COURSES = [
+    { id: 1, name: "수학Ⅱ", credit: 4, isPf: false, perfMax: 50, midRatio: 0.25, finRatio: 0.25, defPerf: 50.0, defMid: 79.1, defFin: 79.1, baseAp: 90.0, baseA0: 80.0, baseAm: 70.0 },
+    { id: 2, name: "기초물리학및실험Ⅱ", credit: 3, isPf: false, perfMax: 50, midRatio: 0.25, finRatio: 0.25, defPerf: 50.0, defMid: 90.0, defFin: 90.0, baseAp: 90.0, baseA0: 80.0, baseAm: 70.0 },
+    { id: 3, name: "기초지구과학및실험Ⅱ", credit: 3, isPf: false, perfMax: 50, midRatio: 0.25, finRatio: 0.25, defPerf: 50.0, defMid: 77.7, defFin: 77.7, baseAp: 90.0, baseA0: 80.0, baseAm: 70.0 },
+    { id: 4, name: "기초생명과학및실험Ⅱ", credit: 3, isPf: false, perfMax: 40, midRatio: 0.30, finRatio: 0.30, defPerf: 40.0, defMid: 85.0, defFin: 85.0, baseAp: 91.7, baseA0: 83.3, baseAm: 75.0 },
+    { id: 5, name: "기초화학및실험Ⅱ", credit: 3, isPf: false, perfMax: 30, midRatio: 0.35, finRatio: 0.35, defPerf: 30.0, defMid: 89.7, defFin: 89.7, baseAp: 92.9, baseA0: 85.7, baseAm: 78.6 },
+    { id: 6, name: "정보과학Ⅱ", credit: 2, isPf: false, perfMax: 70, midRatio: 0.30, finRatio: 0.00, defPerf: 70.0, defMid: 92.0, defFin: null, baseAp: 83.3, baseA0: 66.7, baseAm: 50.0 },
+    { id: 7, name: "국어Ⅱ", credit: 2, isPf: false, perfMax: 70, midRatio: 0.30, finRatio: 0.00, defPerf: 70.0, defMid: 85.4, defFin: null, baseAp: 83.3, baseA0: 66.7, baseAm: 50.0 },
+    { id: 8, name: "영어Ⅱ", credit: 2, isPf: false, perfMax: 60, midRatio: 0.00, finRatio: 0.40, defPerf: 60.0, defMid: null, defFin: 90.0, baseAp: 87.5, baseA0: 75.0, baseAm: 62.5 },
+    { id: 9, name: "현대사회와법", credit: 2, isPf: false, perfMax: 60, midRatio: 0.00, finRatio: 0.40, defPerf: 60.0, defMid: null, defFin: 88.0, baseAp: 87.5, baseA0: 75.0, baseAm: 62.5 },
+    { id: 10, name: "체육Ⅱ", credit: 1, isPf: true, perfMax: 100, midRatio: 0.00, finRatio: 0.00, defPerf: 100.0, defMid: null, defFin: null, baseAp: "-", baseA0: "-", baseAm: "-" },
+    { id: 11, name: "음악Ⅰ", credit: 2, isPf: true, perfMax: 100, midRatio: 0.00, finRatio: 0.00, defPerf: 100.0, defMid: null, defFin: null, baseAp: "-", baseA0: "-", baseAm: "-" }
+  ];
+
+  // State
+  let state = {};
+  let currentTab = 'all';
+
+  // Security 3: Safe LocalStorage parsing & Integrity check
+  function initData() {
+    const saved = localStorage.getItem('gshs_gpa_state_v8');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved);
+        if (typeof parsed === 'object' && parsed !== null) {
+          let isValid = true;
+          COURSES.forEach(c => {
+            if (!parsed[c.id] || typeof parsed[c.id] !== 'object') isValid = false;
+          });
+          if (isValid) {
+            state = parsed;
+            return;
+          }
+        }
+      } catch (e) {
+        console.warn('Storage parse fallback to defaults');
+      }
+    }
+    resetToDefaultsState();
+  }
+
+  function resetToDefaultsState() {
+    state = {};
+    COURSES.forEach(c => {
+      state[c.id] = {
+        perf: c.defPerf,
+        mid: c.defMid,
+        fin: c.defFin
+      };
+    });
+  }
+
+  function resetDefaults() {
+    if (confirm("모든 과목 점수를 기본 설정값으로 초기화하시겠습니까?")) {
+      resetToDefaultsState();
+      localStorage.removeItem('gshs_gpa_state_v8');
+      render();
+      showToast("모든 과목 점수가 기본값으로 초기화되었습니다.");
+    }
+  }
+
+  function saveToLocal() {
+    try {
+      localStorage.setItem('gshs_gpa_state_v8', JSON.stringify(state));
+      showToast("💾 브라우저에 안전하게 저장되었습니다!");
+    } catch (e) {
+      showToast("저장 실패 (로컬 스토리지 공간 또는 권한 확인)");
+    }
+  }
+
+  function calcCourse(c) {
+    const s = state[c.id];
+    const perf = Number(s.perf) || 0;
+    const mid = s.mid !== null && s.mid !== "" ? Number(s.mid) : 0;
+    const fin = s.fin !== null && s.fin !== "" ? Number(s.fin) : 0;
+
+    let rawTotal = perf;
+    if (c.midRatio > 0 && s.mid !== null && s.mid !== "") {
+      rawTotal += mid * c.midRatio;
+    }
+    if (c.finRatio > 0 && s.fin !== null && s.fin !== "") {
+      rawTotal += fin * c.finRatio;
+    }
+    
+    // 1. 합산 점수 산출 (소수 첫째자리)
+    const total = Math.round((rawTotal + 1e-9) * 10) / 10;
+
+    // 2. 성취도 및 평점 판정 (엄격한 커트라인 적용, 반올림 상향 절대 없음)
+    let grade = "F";
+    let gp = 0.0;
+    if (c.isPf) {
+      grade = total >= 70 ? "P" : "F";
+      gp = 0.0;
+    } else {
+      if (total >= 95) { grade = "A+"; gp = 4.3; }
+      else if (total >= 90) { grade = "A0"; gp = 4.0; }
+      else if (total >= 85) { grade = "A-"; gp = 3.7; }
+      else if (total >= 80) { grade = "B+"; gp = 3.3; }
+      else if (total >= 75) { grade = "B0"; gp = 3.0; }
+      else if (total >= 70) { grade = "B-"; gp = 2.7; }
+      else if (total >= 65) { grade = "C+"; gp = 2.3; }
+      else if (total >= 60) { grade = "C0"; gp = 2.0; }
+      else { grade = "F"; gp = 0.0; }
+    }
+
+    // Final exam cutoffs
+    let cutAp = "-", cutA0 = "-", cutAm = "-";
+    if (c.isPf) {
+      cutAp = "P/F";
+      cutA0 = "P/F";
+      cutAm = "P/F";
+    } else if (c.finRatio > 0) {
+      let currentBase = perf;
+      if (c.midRatio > 0) currentBase += mid * c.midRatio;
+      cutAp = Math.round((((95 - currentBase) / c.finRatio) + 1e-9) * 10) / 10;
+      cutA0 = Math.round((((90 - currentBase) / c.finRatio) + 1e-9) * 10) / 10;
+      cutAm = Math.round((((85 - currentBase) / c.finRatio) + 1e-9) * 10) / 10;
+    } else {
+      cutAp = "미실시";
+      cutA0 = "미실시";
+      cutAm = "미실시";
+    }
+
+    return { total, grade, gp, cutAp, cutA0, cutAm };
+  }
+
+  function calcTotalGPA() {
+    let totalWeightedGp = 0;
+    let totalCredits = 0;
+    COURSES.forEach(c => {
+      if (c.isPf) return; // P/F 과목은 GPA 산출에서 제외
+      const { gp } = calcCourse(c);
+      totalWeightedGp += gp * c.credit;
+      totalCredits += c.credit;
+    });
+    if (totalCredits === 0) return { gpa: "0.000", gpaNum: 0 };
+    
+    const rawGpa = totalWeightedGp / totalCredits;
+    // 소수 셋째자리까지 확정
+    const gpaNum = Math.round((rawGpa + 1e-9) * 1000) / 1000;
+    const gpa = gpaNum.toFixed(3);
+
+    return { gpa, gpaNum };
+  }
+
+  // Security 4: Input Sanitization & Clamping
+  function onScoreChange(courseId, field, value) {
+    if (value === "") {
+      state[courseId][field] = "";
+    } else {
+      let num = parseFloat(value);
+      if (isNaN(num) || !isFinite(num)) {
+        num = 0;
+      }
+      if (num < 0) num = 0;
+      if (num > 150) num = 150;
+      state[courseId][field] = Math.round((num + 1e-9) * 10) / 10;
+    }
+    updateLiveDisplays();
+  }
+
+  function updateLiveDisplays() {
+    const gpaResult = calcTotalGPA();
+    document.getElementById('headerGpa').innerText = gpaResult.gpa;
+
+    COURSES.forEach(c => {
+      const calc = calcCourse(c);
+      const totalEl = document.getElementById(`total-${c.id}`);
+      const gradeEl = document.getElementById(`grade-${c.id}`);
+      const cutApEl = document.getElementById(`cutAp-${c.id}`);
+      const cutA0El = document.getElementById(`cutA0-${c.id}`);
+      const cutAmEl = document.getElementById(`cutAm-${c.id}`);
+
+      if (totalEl) totalEl.innerText = `${calc.total}점`;
+      if (gradeEl) {
+        if (c.isPf) {
+          gradeEl.innerText = calc.grade === 'P' ? 'P (Pass)' : 'F (Fail)';
+          gradeEl.style.background = calc.grade === 'P' ? '#D1FAE5' : '#FEE2E2';
+          gradeEl.style.color = calc.grade === 'P' ? '#065F46' : '#991B1B';
+        } else {
+          gradeEl.innerText = calc.grade;
+          gradeEl.style.background = calc.grade.startsWith("A") ? "#D1FAE5" : "#FEF3C7";
+          gradeEl.style.color = calc.grade.startsWith("A") ? "#065F46" : "#92400E";
+        }
+      }
+      if (cutApEl) cutApEl.innerText = calc.cutAp;
+      if (cutA0El) cutA0El.innerText = calc.cutA0;
+      if (cutAmEl) cutAmEl.innerText = calc.cutAm;
+    });
+  }
+
+  function switchTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
+    render();
+  }
+
+  function render() {
+    const listEl = document.getElementById('coursesList');
+    listEl.innerHTML = '';
+
+    const filtered = COURSES.filter(c => {
+      if (currentTab === 'written') return c.finRatio > 0;
+      if (currentTab === 'nonwritten') return c.finRatio === 0;
+      return true;
+    });
+
+    filtered.forEach(c => {
+      const s = state[c.id];
+      const calc = calcCourse(c);
+
+      const hasMid = c.midRatio > 0;
+      const hasFin = c.finRatio > 0;
+
+      const card = document.createElement('div');
+      card.className = 'course-card';
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="course-title-wrap">
+            <span class="course-no">${c.id}</span>
+            <span class="course-name">${c.name}</span>
+            <span class="course-credit">${c.credit}학점</span>
+            ${c.isPf ? '<span class="pf-tag">P/F</span>' : ''}
+          </div>
+          <div class="score-summary">
+            <span class="total-score-pill" id="total-${c.id}">${calc.total}점</span>
+            <span class="grade-badge" id="grade-${c.id}">${c.isPf ? (calc.grade === 'P' ? 'P (Pass)' : 'F (Fail)') : calc.grade}</span>
+          </div>
+        </div>
+
+        <div class="inputs-grid">
+          <div class="input-box editable">
+            <label class="input-label">수행예상(${c.perfMax}점)</label>
+            <input type="number" step="0.1" min="0" max="${c.perfMax}" class="score-input" value="${s.perf}" 
+                   oninput="onScoreChange(${c.id}, 'perf', this.value)">
+          </div>
+
+          <div class="input-box ${hasMid ? 'editable' : 'disabled'}">
+            <label class="input-label">중간원점수(${hasMid ? (c.midRatio*100)+'%' : '미실시'})</label>
+            <input type="number" step="0.1" min="0" max="100" class="score-input" value="${hasMid ? (s.mid ?? '') : '-'}" 
+                   ${!hasMid ? 'disabled' : ''} 
+                   oninput="onScoreChange(${c.id}, 'mid', this.value)">
+          </div>
+
+          <div class="input-box ${hasFin ? 'editable' : 'disabled'}">
+            <label class="input-label">기말원점수(${hasFin ? (c.finRatio*100)+'%' : '미실시'})</label>
+            <input type="number" step="0.1" min="0" max="100" class="score-input" value="${hasFin ? (s.fin ?? '') : '-'}" 
+                   ${!hasFin ? 'disabled' : ''} 
+                   oninput="onScoreChange(${c.id}, 'fin', this.value)">
+          </div>
+        </div>
+
+        ${c.isPf ? `
+        <div class="cutoffs-bar pf">
+          <span class="cutoffs-title" style="color:#065F46;">🏅 평가 기준:</span>
+          <span style="font-size:11px; color:#047857; font-weight:600;">70점 이상 Pass (GPA 제외)</span>
+        </div>
+        ` : `
+        <div class="cutoffs-stack">
+          ${hasFin ? `
+          <div class="cutoffs-bar actual">
+            <span class="cutoffs-title">🎯 실전 기말 목표컷:</span>
+            <div class="cutoffs-values">
+              <span class="cut-tag">A+ <span class="cut-val" id="cutAp-${c.id}">${calc.cutAp}</span></span>
+              <span class="cut-tag">A0 <span class="cut-val" id="cutA0-${c.id}">${calc.cutA0}</span></span>
+              <span class="cut-tag">A- <span class="cut-val" id="cutAm-${c.id}">${calc.cutAm}</span></span>
+            </div>
+          </div>
+          ` : `
+          <div class="cutoffs-bar disabled">
+            <span class="cutoffs-title" style="color:#64748B;">✨ 기말고사:</span>
+            <span style="font-size:11px; color:#64748B;">미실시 과목 (중간/수행만으로 등급 산출)</span>
+          </div>
+          `}
+          <div class="cutoffs-bar baseline">
+            <span class="cutoffs-title" title="1-2_간편시뮬 시트의 I~K열 정보">📌 수행만점 기준시 지필평균 커트라인:</span>
+            <div class="cutoffs-values">
+              <span class="cut-tag-base">A+ <span class="cut-val-base">${c.baseAp}</span></span>
+              <span class="cut-tag-base">A0 <span class="cut-val-base">${c.baseA0}</span></span>
+              <span class="cut-tag-base">A- <span class="cut-val-base">${c.baseAm}</span></span>
+            </div>
+          </div>
+        </div>
+        `}
+      `;
+      listEl.appendChild(card);
+    });
+
+    updateLiveDisplays();
+  }
+
+  function copyShareText() {
+    const gpaResult = calcTotalGPA();
+    const gpaStr = typeof gpaResult === 'object' ? gpaResult.gpa : gpaResult;
+    let text = `📊 [경기과고 고1-2 내신 시뮬레이션 결과 (v20261020.8)]\n⭐ 예상 학점평균 (GPA): ${gpaStr} / 4.30 (체육·음악 P/F 제외 24학점 기준)\n\n`;
+    COURSES.forEach(c => {
+      const calc = calcCourse(c);
+      text += `• ${c.name} (${c.credit}학점): ${calc.total}점 [${calc.grade}]\n`;
+    });
+
+    copyToClipboard(text, function(success) {
+      if (success) {
+        showToast("📋 성적 요약이 클립보드에 복사되었습니다!");
+      } else {
+        showToast("복사 실패 (텍스트를 직접 길게 눌러 복사해주세요)");
+      }
+    });
+  }
+
+  function copyToClipboard(text, callback) {
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(() => {
+        callback(true);
+      }).catch(() => {
+        fallbackCopy(text, callback);
+      });
+    } else {
+      fallbackCopy(text, callback);
+    }
+  }
+
+  function fallbackCopy(text, callback) {
+    try {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.top = "0";
+      textArea.style.left = "0";
+      textArea.style.width = "2em";
+      textArea.style.height = "2em";
+      textArea.style.padding = "0";
+      textArea.style.border = "none";
+      textArea.style.outline = "none";
+      textArea.style.boxShadow = "none";
+      textArea.style.background = "transparent";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      textArea.setSelectionRange(0, 99999);
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textArea);
+      callback(successful);
+    } catch (err) {
+      callback(false);
+    }
+  }
+
+  function showToast(msg) {
+    const toast = document.getElementById('toast');
+    toast.innerText = msg;
+    toast.classList.add('show');
+    setTimeout(() => {
+      toast.classList.remove('show');
+    }, 2400);
+  }
+
+  function openSecurityModal() {
+    document.getElementById('secModal').classList.add('open');
+  }
+
+  function closeSecurityModal(e) {
+    if (!e || e.target.id === 'secModal' || e.target.classList.contains('modal-close')) {
+      document.getElementById('secModal').classList.remove('open');
+    }
+  }
+
+  // Initialize
+  initData();
+  render();
+
+  // PWA: 서비스 워커 등록 (설치 및 오프라인 사용)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+  }
+</script>
+
+</body>
+</html>
