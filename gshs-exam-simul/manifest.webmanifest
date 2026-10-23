@@ -1,9 +1,9 @@
 {
   "name": "경기과고 고1-2 내신 간편 시뮬레이터",
   "short_name": "경기과고 내신",
-  "id": "/gshs/",
-  "start_url": "/gshs/",
-  "scope": "/gshs/",
+  "id": "/gshs-exam-simul/",
+  "start_url": "/gshs-exam-simul/",
+  "scope": "/gshs-exam-simul/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#F1F5F9",

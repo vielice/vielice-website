@@ -1,6 +1,8 @@
 // 캐시 우선: 한 번 설치되면 서버 없이 기기에 저장된 파일로만 동작합니다.
 // index.html을 수정하면 이 값을 올려야 새 버전이 배포됩니다 (서버가 살아 있을 때만).
-const CACHE = 'gshs-local-v20261020.8';
+// 이전 주소(/gshs/)에 설치된 앱이 같은 캐시 저장소를 쓰므로, 이 접두어의 캐시만 정리합니다.
+const PREFIX = 'gshs-exam-simul-';
+const CACHE = PREFIX + 'v20261020.8';
 const ASSETS = ['./', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', (e) => {
@@ -10,7 +12,7 @@ self.addEventListener('install', (e) => {
 self.addEventListener('activate', (e) => {
   e.waitUntil(
     caches.keys()
-      .then((keys) => Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))))
+      .then((keys) => Promise.all(keys.filter((k) => k.startsWith(PREFIX) && k !== CACHE).map((k) => caches.delete(k))))
       .then(() => self.clients.claim())
   );
 });
