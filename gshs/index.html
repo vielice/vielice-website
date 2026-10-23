@@ -1229,6 +1229,8 @@
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
   }
+  // 저장된 앱 파일이 브라우저 정리로 지워지지 않도록 영구 저장 요청
+  if (navigator.storage && navigator.storage.persist) navigator.storage.persist();
 </script>
 
 </body>
